@@ -1,28 +1,26 @@
 "use client";
 
-import { signIn, signUp } from "@/lib/actions/auth-actions";
-// import { useSearchParams } from "next/navigation";
-// import { useRouter } from "next/router";
 import { useState } from "react";
+import { signIn, signInSocial, signUp } from "@/lib/actions/auth-actions";
 
 export default function AuthClientPage() {
   const [isSignIn, setIsSignIn] = useState(true);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
-  // const router = useRouter();
-  // const searchParams = useSearchParams();
+  // Get callback URL from search params (set by middleware)
 
   const handleSocialAuth = async (provider: "google" | "github") => {
     setIsLoading(true);
     setError("");
+
     try {
-      console.log("Logged in with", provider);
+      await signInSocial(provider);
     } catch (err) {
       setError(
-        `Error authenticating with ${provider} : ${
+        `Error authenticating with ${provider}: ${
           err instanceof Error ? err.message : "Unknown error"
         }`
       );
@@ -31,22 +29,22 @@ export default function AuthClientPage() {
     }
   };
 
-  const handleEmailAuth = async (event: React.FormEvent) => {
-    event.preventDefault();
+  const handleEmailAuth = async (e: React.FormEvent) => {
+    e.preventDefault();
     setIsLoading(true);
     setError("");
 
     try {
       if (isSignIn) {
-      const result = await signIn(email, password)
-      if(!result.user){
-        setError("Invalid email or password")
-      }
+        const result = await signIn(email, password);
+        if (!result.user) {
+          setError("Invalid email or password");
+        }
       } else {
-        const result = await signUp(email, password, name)
-      if(!result.user){
-        setError("Failed to create account")
-      }
+        const result = await signUp(email, password, name);
+        if (!result.user) {
+          setError("Failed to create account");
+        }
       }
     } catch (err) {
       setError(
@@ -67,14 +65,14 @@ export default function AuthClientPage() {
             <h1 className="text-3xl font-bold text-gray-900 mb-2">
               {isSignIn ? "Welcome Back" : "Create Account"}
             </h1>
-            <p>
+            <p className="text-gray-600">
               {isSignIn
                 ? "Sign in to your account to continue"
                 : "Sign up to get started with better-auth"}
             </p>
           </div>
 
-          {/* Error Displaying */}
+          {/* Error Display */}
           {error && (
             <div className="bg-red-50 border border-red-200 rounded-lg p-4">
               <div className="flex">
@@ -174,8 +172,8 @@ export default function AuthClientPage() {
                   autoComplete="name"
                   required={!isSignIn}
                   value={name}
-                  onChange={(event) => setName(event.target.value)}
-                  className="w-full px-3 py-2 border text-black border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                  onChange={(e) => setName(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-black shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                   placeholder="Enter your full name"
                 />
               </div>
@@ -195,7 +193,7 @@ export default function AuthClientPage() {
                 autoComplete="email"
                 required
                 value={email}
-                onChange={(event) => setEmail(event.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-3 py-2 border text-black border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                 placeholder="Enter your email"
               />
@@ -215,7 +213,7 @@ export default function AuthClientPage() {
                 autoComplete={isSignIn ? "current-password" : "new-password"}
                 required
                 value={password}
-                onChange={(event) => setPassword(event.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-3 py-2 border text-black border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
                 placeholder="Enter your password"
               />
