@@ -1,5 +1,6 @@
 "use client";
 
+import { signIn, signUp } from "@/lib/actions/auth-actions";
 // import { useSearchParams } from "next/navigation";
 // import { useRouter } from "next/router";
 import { useState } from "react";
@@ -37,9 +38,15 @@ export default function AuthClientPage() {
 
     try {
       if (isSignIn) {
-        console.log("Signed in");
+      const result = await signIn(email, password)
+      if(!result.user){
+        setError("Invalid email or password")
+      }
       } else {
-        console.log("Signed up");
+        const result = await signUp(email, password, name)
+      if(!result.user){
+        setError("Failed to create account")
+      }
       }
     } catch (err) {
       setError(
