@@ -2,6 +2,7 @@
 
 import { signOut } from "@/lib/actions/auth-actions";
 import { auth } from "@/lib/auth";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -33,8 +34,11 @@ export default function DashboardClientPage({ session }: { session: Session }) {
               </div>
               <div className="flex items-center space-x-3">
                 <div className="flex items-center space-x-3">
-                  <img
-                    className="h-10 w-10 rounded-full"
+                  <Image
+                  width={10}
+                  height={10}
+                  alt="Logo"
+                    className="rounded-full"
                     src={
                       "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face"
                     }
