@@ -3,7 +3,7 @@
 <div align="center">
   <br />
   <a href="https://nextjs-authentication-better-auth.vercel.app/" target="_blank">
-    <img width="1280" height="720" alt="NextJS Auth Full Course with Better Auth" src="./banner.png" />
+    <img width="1280" height="720" alt="NextJS Auth with Better Auth" src="./banner.png" />
   </a>
   <br />
   <div>
