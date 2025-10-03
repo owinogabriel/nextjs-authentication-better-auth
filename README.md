@@ -28,9 +28,6 @@
 6. [Environment Setup](#-environment-setup)
 7. [Database Setup](#-database-setup)
 8. [Screenshots](#-screenshots)
-9. [Deployment](#-deployment)
-10. [Useful Links](#-useful-links)
-
 ---
 
 ## 🚀 Introduction
